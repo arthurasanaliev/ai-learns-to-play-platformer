@@ -8,7 +8,7 @@ class Player:
         self.x = PLAYER_ORIGIN_X
         self.y = PLAYER_ORIGIN_Y
 
-    def update(self, platforms):
+    def update(self, platforms, bad_platforms):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.move_left()
@@ -20,6 +20,7 @@ class Player:
         self.on_ground = False
         self.velocity += GRAVITY
 
+        # vertical collision
         for platform in platforms:
             if (platform.rect.top + PLATFORM_HEIGHT <= self.y and
                 platform.rect.top + PLATFORM_HEIGHT > self.y + self.velocity and
@@ -29,12 +30,20 @@ class Player:
 
         self.y += self.velocity
 
+        # staying on ground
         for platform in platforms:
             if pygame.Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT).colliderect(platform.rect):
                 if self.y <= platform.rect.top:
                     self.velocity = 0
                     self.on_ground = True
                     self.y = platform.rect.y - PLAYER_HEIGHT
+
+        # bad platform collision -- todo -- fix bug
+        for platform in bad_platforms:
+            if pygame.Rect(self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT).colliderect(platform.rect):
+                return False
+
+        return True
 
     def move_left(self):
         self.x = max(0, self.x - PLAYER_MOVEMENT)
@@ -48,4 +57,4 @@ class Player:
             self.on_ground = False
 
     def render(self, screen):
-        pygame.draw.rect(screen, RED, (self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT))
+        pygame.draw.rect(screen, GREEN, (self.x, self.y, PLAYER_WIDTH, PLAYER_HEIGHT))

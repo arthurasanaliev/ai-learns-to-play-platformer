@@ -11,12 +11,16 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
         self.player = Player()
-        self.platforms = [
+        self.good_platforms = [
             Platform(0, HEIGHT - 20, WIDTH),
             Platform(200, 650),
             Platform(400, 500), 
             Platform(600, 350), 
             Platform(800, 200)
+        ]
+        self.bad_platforms = [
+            Platform(200, HEIGHT - 20, color=RED),
+            Platform(600, HEIGHT - 20, color=RED),
         ]
 
     def handle_events(self):
@@ -25,11 +29,14 @@ class Game:
                 self.running = False
 
     def update(self):
-        self.player.update(self.platforms)
+        if not self.player.update(self.good_platforms, self.bad_platforms):
+            self.running = False
 
     def render(self):
         self.screen.fill(BLACK)
-        for platform in self.platforms:
+        for platform in self.good_platforms:
+            platform.render(self.screen)
+        for platform in self.bad_platforms:
             platform.render(self.screen)
         self.player.render(self.screen)
         pygame.display.flip()
