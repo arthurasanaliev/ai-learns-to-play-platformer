@@ -12,11 +12,11 @@ class Game:
         self.running = True
         self.player = Player()
         self.platforms = [
-            Platform(0, HEIGHT - 20, WIDTH, 20),
-            Platform(200, 650, 150, 20),
-            Platform(400, 500, 150, 20), 
-            Platform(600, 350, 150, 20), 
-            Platform(800, 200, 150, 20)
+            Platform(0, HEIGHT - 20, WIDTH),
+            Platform(200, 650),
+            Platform(400, 500), 
+            Platform(600, 350), 
+            Platform(800, 200)
         ]
 
     def handle_events(self):

@@ -19,6 +19,14 @@ class Player:
 
         self.on_ground = False
         self.velocity += GRAVITY
+
+        for platform in platforms:
+            if (platform.rect.top + PLATFORM_HEIGHT <= self.y and
+                platform.rect.top + PLATFORM_HEIGHT > self.y + self.velocity and
+                platform.rect.left + PLATFORM_WIDTH >= self.x and
+                platform.rect.left - PLAYER_WIDTH <= self.x):
+                self.velocity *= -1
+
         self.y += self.velocity
 
         for platform in platforms:
