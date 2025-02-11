@@ -1,8 +1,6 @@
 import pygame
 from config import *
 
-# TODO: fix collision logic between player and platforms
-
 class Player:
     def __init__(self):
         self.velocity = 0
